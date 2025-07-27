@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SA MUNDO NI JOSH</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .flower-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 50px auto;
+        }
+
+        .flower-center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #f9ca24;
+            border-radius: 50%;
+            top: 250px;
+            left: 125px;
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(249, 202, 36, 0.7);
+        }
+
+        .petal {
+            position: absolute;
+            width: 80px;
+            height: 160px;
+            background: linear-gradient(to bottom, #ff9ff3, #f368e0);
+            border-radius: 40px 40px 0 0;
+            transform-origin: bottom center;
+            box-shadow: 0 2px 15px rgba(243, 104, 224, 0.4);
+        }
+
+        .stem {
+            position: absolute;
+            width: 10px;
+            height: 200px;
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            top: 300px;
+            left: 145px;
+            z-index: -1;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 30px;
+            height: 150px;
+            background: #27ae60;
+            border-radius: 40px;
+            z-index: -1;
+        }
+
+        .leaf.left {
+            transform: rotate(-70deg);
+            top: 400px;
+            left: 80px;
+        }
+
+        .leaf.right {
+            transform: rotate(70deg);
+            top: 400px;
+            left: 190px;
+        }
+
+        .message {
+            margin-top: 50px;
+            text-align: center;
+            color: #333;
+            font-size: 1.2rem;
+            font-style: italic;
+            max-width: 300px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 4s ease-in-out;
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0.1) rotate(var(--rotation));
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(var(--rotation));
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sun {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: #feca57;
+            border-radius: 50%;
+            top: 50px;
+            right: 50px;
+            box-shadow: 0 0 30px #feca57;
+            animation: pulse 4s infinite ease-in-out;
+        }
+
+        .sun-rays {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 4px solid #feca57;
+            border-radius: 50%;
+            top: -20px;
+            left: -20px;
+            animation: pulse 4s infinite ease-in-out 1s;
+        }
+    </style>
+</head>
+<body>
+    <div class="sun"></div>
+    <div class="sun-rays"></div>
+    
+    <div class="flower-container">
+        <!-- Center of the flower -->
+        <div class="flower-center"></div>
+        
+        <!-- Stem and leaves -->
+        <div class="stem"></div>
+        <div class="leaf left"></div>
+        <div class="leaf right"></div>
+        
+        <!-- Petals will be added via JavaScript -->
+    </div>
+    
+    <div class="message">
+        Have a blessed sunday my bff!
+        <br>
+        <br>
+        <div style="font-size: medium; font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: small;">
+            - Josh Jan WebPageTest<i class="fa-solid fa-face-smile"></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const flowerContainer = document.querySelector('.flower-container');
+            const petalCount = 12;
+            
+            // Create petals
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                
+                // Calculate rotation angle for each petal (30 degrees apart)
+                const rotation = i * (360 / petalCount);
+                petal.style.setProperty('--rotation', `${rotation}deg`);
+                
+                // Position petals around the center
+                petal.style.transform = `rotate(${rotation}deg) translateY(-30px)`;
+                petal.style.top = '120px';
+                petal.style.left = '120px';
+                
+                // Apply bloom animation
+                petal.style.animation = `bloom ${0.5 + i * 0.1}s ease-out forwards`;
+                
+                flowerContainer.appendChild(petal);
+            }
+            
+            // Make petals move slightly in the wind
+            setInterval(() => {
+                const petals = document.querySelectorAll('.petal');
+                petals.forEach((petal, index) => {
+                    let currentRotation = parseFloat(petal.style.getPropertyValue('--rotation'));
+                    const windEffect = Math.sin(Date.now() / 1000 + index) * 5; // Gentle sway
+                    petal.style.transform = `rotate(${currentRotation + windEffect}deg) translateY(-30px)`;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+
